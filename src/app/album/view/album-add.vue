@@ -1,12 +1,9 @@
 <script lang="ts" setup>
 import type {Ref} from 'vue';
-import {ref, watch} from 'vue';
-import {storeToRefs} from 'pinia';
+import {ref} from 'vue';
 import {useRouter} from 'vue-router';
 
-import {ResultEnum} from '@/app/shared/enum/result.enum';
 import {AlbumModel} from '@/app/album/model/album.model';
-import type {ResultModel} from '@/app/shared/model/result.model';
 import {useAlbumStore} from '@/app/album/store/album.store';
 
 const router = useRouter();
@@ -14,19 +11,18 @@ const router = useRouter();
 const add: Ref<AlbumModel.Request.Add> = ref(new AlbumModel.Request.Add());
 
 const store = useAlbumStore();
-const {result} = storeToRefs(store);
 
 function onAdd() {
-  store.setAdd(add.value);
+  store
+    .setAdd(add.value)
+    .then(() => {
+      window.alert('ADD COMPLETE');
+      router.back();
+    })
+    .catch((error: unknown) => {
+      console.error(error);
+    });
 }
-
-watch(result, () => {
-  const result: ResultModel = store.getResult();
-  if (ResultEnum.ADD === result.action) {
-    window.alert('ADD COMPLETE');
-    router.back();
-  }
-});
 </script>
 
 <template>

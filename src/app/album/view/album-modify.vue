@@ -1,12 +1,9 @@
 <script lang="ts" setup>
 import type {Ref} from 'vue';
-import {ref, onMounted, watch} from 'vue';
-import {storeToRefs} from 'pinia';
+import {ref, onMounted} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
 
-import {ResultEnum} from '@/app/shared/enum/result.enum';
 import {AlbumModel} from '@/app/album/model/album.model';
-import type {ResultModel} from '@/app/shared/model/result.model';
 import {useAlbumStore} from '@/app/album/store/album.store';
 
 const route = useRoute();
@@ -16,31 +13,28 @@ const id: number = Number(route.params.id);
 const modify: Ref<AlbumModel.Request.Modify> = ref(new AlbumModel.Request.Modify());
 
 const store = useAlbumStore();
-const {one, result} = storeToRefs(store);
 
 onMounted(() => {
   onSearch(id);
 });
 
 function onSearch(id: number) {
-  store.setOne(id);
+  store.setOne(id).then(() => {
+    modify.value = store.getModify();
+  });
 }
 
 function onModify() {
-  store.setModify(id, modify.value);
+  store
+    .setModify(id, modify.value)
+    .then(() => {
+      window.alert('MODIFY COMPLETE');
+      router.back();
+    })
+    .catch((error: unknown) => {
+      console.error(error);
+    });
 }
-
-watch(one, () => {
-  modify.value = store.getModify();
-});
-
-watch(result, () => {
-  const result: ResultModel = store.getResult();
-  if (ResultEnum.MODIFY === result.action) {
-    window.alert('MODIFY COMPLETE');
-    router.back();
-  }
-});
 </script>
 
 <template>

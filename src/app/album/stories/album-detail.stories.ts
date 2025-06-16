@@ -1,5 +1,4 @@
-import type {Meta, StoryObj, Args} from '@storybook/vue3';
-import {vueRouter} from 'storybook-vue3-router';
+import type {Meta, StoryObj, Args} from '@storybook/vue3-vite';
 
 import AlbumDetail from '@/app/album/view/album-detail.vue';
 
@@ -12,20 +11,21 @@ const meta: Args = {
     template: '<router-view/>'
   }),
 
-  decorators: [
-    vueRouter(
-      [
-        {
-          path: '/album/detail/:id',
-          name: 'AlbumDetail',
-          component: AlbumDetail
-        }
-      ],
-      {
-        initialRoute: '/album/detail/1'
-      }
-    )
-  ],
+  // TODO: 해결 해야함.
+  // decorators: [
+  //   vueRouter(
+  //     [
+  //       {
+  //         path: '/album/detail/:id',
+  //         name: 'AlbumDetail',
+  //         component: AlbumDetail
+  //       }
+  //     ],
+  //     {
+  //       initialRoute: '/album/detail/1'
+  //     }
+  //   )
+  // ],
 
   tags: ['autodocs,']
 } satisfies Meta<typeof AlbumDetail>;

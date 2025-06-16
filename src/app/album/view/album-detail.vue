@@ -1,12 +1,9 @@
 <script lang="ts" setup>
 import type {Ref} from 'vue';
-import {ref, onMounted, watch} from 'vue';
-import {storeToRefs} from 'pinia';
+import {ref, onMounted} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
 
-import {ResultEnum} from '@/app/shared/enum/result.enum';
 import {AlbumModel} from '@/app/album/model/album.model';
-import type {ResultModel} from '@/app/shared/model/result.model';
 import {useAlbumStore} from '@/app/album/store/album.store';
 
 const route = useRoute();
@@ -16,10 +13,11 @@ const id: number = Number(route.params.id);
 const detail: Ref<AlbumModel.Response.FindOne> = ref(new AlbumModel.Response.FindOne());
 
 const store = useAlbumStore();
-const {one, result} = storeToRefs(store);
 
 onMounted(() => {
-  store.setOne(id);
+  store.setOne(id).then(() => {
+    detail.value = store.getOne();
+  });
 });
 
 function onModify() {
@@ -27,20 +25,16 @@ function onModify() {
 }
 
 function onDelete() {
-  store.setDelete(id);
+  store
+    .setDelete(id)
+    .then(() => {
+      window.alert('DELETE COMPLETE');
+      router.back();
+    })
+    .catch((error: unknown) => {
+      console.error(error);
+    });
 }
-
-watch(one, () => {
-  detail.value = store.getOne();
-});
-
-watch(result, () => {
-  const result: ResultModel = store.getResult();
-  if (ResultEnum.DELETE === result.action) {
-    window.alert('DELETE COMPLETE');
-    router.back();
-  }
-});
 </script>
 
 <template>

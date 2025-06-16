@@ -1,5 +1,5 @@
-import type {Meta, StoryObj, Args} from '@storybook/vue3';
-import {expect} from '@storybook/test';
+import type {Meta, StoryObj, Args} from '@storybook/vue3-vite';
+import {expect} from 'storybook/test';
 
 import HelloItems from '@/app/sample/components/hello-items.vue';
 

@@ -1,4 +1,4 @@
-import type {Meta, StoryObj, Args} from '@storybook/vue3';
+import type {Meta, StoryObj, Args} from '@storybook/vue3-vite';
 
 import NotFound from '@/app/system/view/not-found.vue';
 

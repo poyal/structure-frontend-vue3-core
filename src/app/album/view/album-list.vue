@@ -10,14 +10,21 @@ const search: Ref<AlbumModel.Request.Search> = ref(new AlbumModel.Request.Search
 const lists: Ref<AlbumModel.Response.FindAll[]> = ref([]);
 
 const store = useAlbumStore();
-const {list} = storeToRefs(store);
 
 onMounted(() => {
   onSearch();
 });
 
 function onSearch() {
-  store.setList(search.value);
+  store
+    .setList(search.value)
+    .then(() => {
+      lists.value = store.getList();
+    })
+    .catch((error: unknown) => {
+      console.error(error);
+      console.log(Object.assign({}, error));
+    });
 }
 
 function onClick(item: AlbumModel.Response.FindAll) {
@@ -27,10 +34,6 @@ function onClick(item: AlbumModel.Response.FindAll) {
 function onAdd() {
   window.location.href = `./add`;
 }
-
-watch(list, () => {
-  lists.value = store.getList();
-});
 </script>
 
 <template>

@@ -1,10 +1,13 @@
 import {Attribute, XssRequest, XssResponse} from '@/core/decorator';
-import {IsInt, IsNotEmpty, IsNumber, IsString, MaxLength} from '@/core/decorator/validator';
+import {IsInt, IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength} from '@/core/decorator/validator';
 
 export namespace AlbumModel {
   export namespace Request {
     export class Search {
       @Attribute('타이틀')
+      @XssRequest()
+      @IsOptional()
+      @IsString()
       title?: string;
 
       constructor(search: AlbumModel.Request.Search = {}) {
