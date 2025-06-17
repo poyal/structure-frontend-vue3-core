@@ -1,5 +1,5 @@
 import type {Meta, StoryObj, Args} from '@storybook/vue3';
-// import {vueRouter} from 'storybook-vue3-router';
+import {vueRouter} from 'storybook-vue3-router';
 
 import DefaultLayout from '@/app/layout/view/default.layout.vue';
 import NotFound from '@/app/system/view/not-found.vue';
@@ -14,13 +14,13 @@ const meta: Args = {
   }),
 
   decorators: [
-    // vueRouter([
-    //   {
-    //     path: '/',
-    //     name: 'NotFound',
-    //     component: NotFound
-    //   }
-    // ])
+    vueRouter([
+      {
+        path: '/',
+        name: 'NotFound',
+        component: NotFound
+      }
+    ])
   ],
 
   tags: ['autodocs']

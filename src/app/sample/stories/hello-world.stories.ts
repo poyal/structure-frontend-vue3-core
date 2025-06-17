@@ -1,4 +1,4 @@
-import type {Meta, StoryObj, Args} from '@storybook/vue3-vite';
+import type {Meta, StoryObj, Args} from '@storybook/vue3';
 
 import HelloWorld from '@/app/sample/view/hello-world.vue';
 
