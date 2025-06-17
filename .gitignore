@@ -41,3 +41,5 @@ coverage
 package-lock.json
 
 *storybook.log
+
+stats.html

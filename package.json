@@ -8,15 +8,22 @@
     "serve:stg": "vite --mode stage",
     "serve:prod": "vite --mode prod",
     "preview": "vite preview",
-    "build-only": "vite build",
+    "build:dev": "vite build  --mode dev",
+    "build:stg": "vite build  --mode stage",
+    "build:prod": "vite build  --mode prod",
     "type-check": "vue-tsc --build --force",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "delete-files": "rm -f package-lock.json && rm -rf node_modules && rm -rf dist",
+    "delete-files": "rm -f package-lock.json && rm -rf node_modules && rm -rf dist && rm -f stats.html",
     "npm-cache-clean": "npm cache clean --force",
     "npm-install": "npm i",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "test": "vitest --ui"
+    "test": "vitest --ui",
+    "visualizer": "vite-bundle-visualizer --mode prod",
+    "pm2:start": "pm2 serve ./dist/ 5173 --spa --name vtm3_frontend",
+    "pm2:restart": "pm2 restart vtm3_frontend",
+    "pm2:stop": "pm2 stop vtm3_frontend",
+    "pm2:delete": "pm2 delete vtm3_frontend"
   },
   "dependencies": {
     "@js-joda/core": "^5.6.5",
@@ -62,6 +69,7 @@
     "storybook": "^9.0.9",
     "typescript": "^5.8.3",
     "vite": "^6.3.5",
+    "vite-bundle-visualizer": "^1.2.1",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.2.3",
     "vue-tsc": "^2.2.10"

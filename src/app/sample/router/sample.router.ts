@@ -1,13 +1,16 @@
+import DefaultLayout from '@/app/layout/view/default.layout.vue';
+import HelloWorld from '@/app/sample/view/hello-world.vue';
+
 export const SampleRouter = [
   {
     path: '/sample',
-    component: () => import('@/app/layout/view/default.layout.vue'),
+    component: DefaultLayout,
     redirect: '/sample/hello-world',
 
     children: [
       {
         path: 'hello-world',
-        component: () => import('@/app/sample/view/hello-world.vue')
+        component: HelloWorld
       }
     ]
   }

@@ -1,7 +1,9 @@
+import DefaultLayout from '@/app/layout/view/default.layout.vue';
+
 export const AlbumRouter = [
   {
     path: '/album',
-    component: () => import('@/app/layout/view/default.layout.vue'),
+    component: DefaultLayout,
     redirect: '/album/list',
 
     children: [

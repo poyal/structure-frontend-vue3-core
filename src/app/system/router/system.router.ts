@@ -1,3 +1,6 @@
+import EmptyLayout from '@/app/layout/view/empty.layout.vue';
+import NotFound from '@/app/system/view/not-found.vue';
+
 export const SystemRouter = [
   {
     path: '',
@@ -5,11 +8,11 @@ export const SystemRouter = [
   },
   {
     path: '',
-    component: () => import('@/app/layout/view/empty.layout.vue'),
+    component: EmptyLayout,
     children: [
       {
         path: 'not-found',
-        component: () => import('@/app/system/view/not-found.vue')
+        component: NotFound
       }
     ]
   }
