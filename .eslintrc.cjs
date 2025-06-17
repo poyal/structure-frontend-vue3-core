@@ -1,3 +1,4 @@
+// TODO: REQUIRE UP TO Eslint@9
 /* eslint-env node */
 require('@rushstack/eslint-patch/modern-module-resolution');
 
