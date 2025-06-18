@@ -1,43 +1,38 @@
-<template>
-  <div id="SampleEventBus"></div>
-</template>
+<script lang="ts" setup>
+import {onMounted, onUnmounted} from 'vue';
 
-<script lang="ts">
-import {Component, Vue} from 'vue-property-decorator';
+import {eventBus, type EventBusCallback} from '@/core/service/event-bus.handler.ts';
 
-import {EVENT_BUS_EVENTS} from '@/app/shared/enum/event-bus.enum';
-import {eventBus, EventBusCallback} from '@/core/service/event-bus.handler';
+let eventBusHandler: EventBusCallback | null = null;
 
-@Component
-export default class SampleEventBus extends Vue {
-  private eventBus: EventBusCallback | null = null;
+onMounted(() => {
+  eventBusHandler = eventBus.subscribe('SAMPLE_EVENT_BUS', getEvent);
+});
 
-  created() {
-    this.eventBus = eventBus.subscribe(EVENT_BUS_EVENTS.SAMPLE_EVENT_BUS, this.getEvent);
+onUnmounted(() => {
+  if (!!eventBusHandler) {
+    eventBusHandler = eventBusHandler.unsubscribe();
   }
+});
 
-  beforeDestroy() {
-    if (!!this.eventBus) {
-      this.eventBus = this.eventBus.unsubscribe();
-    }
-  }
-
-  getEvent(args: any) {
-    console.log(args);
-    const element: HTMLElement | null = document.querySelector('#SampleEventBus');
-    if (!!element) {
-      if (typeof args === 'string') {
+function getEvent(args: any) {
+  const element: HTMLElement | null = document.querySelector('#SampleEventBus');
+  if (!!element) {
+    if (typeof args === 'string') {
+      const div: HTMLDivElement = document.createElement('div');
+      div.innerText = args;
+      element.appendChild(div);
+    } else {
+      args.forEach((arg: any) => {
         const div: HTMLDivElement = document.createElement('div');
-        div.innerText = args;
+        div.innerText = arg;
         element.appendChild(div);
-      } else {
-        args.forEach((arg: any) => {
-          const div: HTMLDivElement = document.createElement('div');
-          div.innerText = arg;
-          element.appendChild(div);
-        });
-      }
+      });
     }
   }
 }
 </script>
+
+<template>
+  <div id="SampleEventBus"></div>
+</template>
