@@ -26,10 +26,10 @@
     "pm2:delete": "pm2 delete vtm3_frontend"
   },
   "dependencies": {
-    "@js-joda/core": "^5.6.5",
     "axios": "^1.9.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
+    "dayjs": "^1.11.13",
     "dompurify": "^3.2.6",
     "js-cookie": "^3.0.5",
     "pinia": "^3.0.3",

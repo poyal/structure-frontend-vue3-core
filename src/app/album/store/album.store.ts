@@ -17,13 +17,12 @@ export const useAlbumStore = defineStore('album-store', () => {
 
   function setList(params: AlbumModel.Request.Search): Promise<AlbumModel.Response.FindAll[]> {
     return new Promise<AlbumModel.Response.FindAll[]>((resolve, reject) => {
-      console.log(params);
       if (!isValidate(params)) {
         reject(throwValidateError(getValidate(params)));
       }
 
       sample
-        .get('/albums', {params})
+        .get('/albums', {params: mapper.toPlain(params)})
         .then((response: AxiosResponse<AlbumModel.Response.FindAll[]>) => {
           list = mapper.toArray(AlbumModel.Response.FindAll, response.data);
           resolve(getList());
@@ -67,7 +66,7 @@ export const useAlbumStore = defineStore('album-store', () => {
       }
 
       sample
-        .post(`/albums`, params)
+        .post(`/albums`, mapper.toPlain(params))
         .then((response: AxiosResponse<AlbumModel.Response.FindOne>) => {
           resolve(response.data);
         })
@@ -84,7 +83,7 @@ export const useAlbumStore = defineStore('album-store', () => {
       }
 
       sample
-        .put(`/albums/${id}`, params)
+        .put(`/albums/${id}`, mapper.toPlain(params))
         .then((response: AxiosResponse<AlbumModel.Response.FindOne>) => {
           resolve(response.data);
         })

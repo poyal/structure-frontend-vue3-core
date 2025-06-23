@@ -1,7 +1,6 @@
 import type {TransformFnParams} from 'class-transformer';
 import {Transform, Type} from 'class-transformer';
 import type {TypeOptions} from 'class-transformer/types/interfaces';
-import {LocalDate, LocalDateTime, LocalTime} from '@js-joda/core';
 
 import Container from '@/core/container';
 import {EnumAbstract} from '@/core/enum/enum.abstract';
@@ -14,39 +13,12 @@ export function Reference(typeFunction: any, typeOptions?: TypeOptions) {
   return (target: any, propertyKey: string) => {
     if (!!typeFunction()) {
       switch (typeFunction()) {
-        case LocalDate:
-          const localDateFormat: DateFormat = referenceService.getDateFormat(target, propertyKey);
-          Type(() => typeFunction().now, typeOptions)(target, propertyKey);
-          Transform((value: TransformFnParams) => referenceService.toLocalDate(value, localDateFormat.toClass), {
+        case Date:
+          const dateFormat: DateFormat = referenceService.getDateFormat(target, propertyKey);
+          Transform((value: TransformFnParams) => referenceService.toDateInstance(value, dateFormat.toClass), {
             toClassOnly: true
           })(target, propertyKey);
-          Transform((value: TransformFnParams) => referenceService.fromStringDate(value, localDateFormat.toPlain), {
-            toPlainOnly: true
-          })(target, propertyKey);
-          break;
-
-        case LocalDateTime:
-          const localDateTimeFormat: DateFormat = referenceService.getDateFormat(target, propertyKey);
-          Type(() => typeFunction().now, typeOptions)(target, propertyKey);
-          Transform(
-            (value: TransformFnParams) => referenceService.toLocalDateTime(value, localDateTimeFormat.toClass),
-            {toClassOnly: true}
-          )(target, propertyKey);
-          Transform(
-            (value: Tra, nsformFnParams) => referenceService.fromStringDate(value, localDateTimeFormat.toPlain),
-            {
-              toPlainOnly: true
-            }
-          )(target, propertyKey);
-          break;
-
-        case LocalTime:
-          const localTimeFormat: DateFormat = referenceService.getDateFormat(target, propertyKey);
-          Type(() => typeFunction().now, typeOptions)(target, propertyKey);
-          Transform((value: TransformFnParams) => referenceService.toLocalTime(value, localTimeFormat.toClass), {
-            toClassOnly: true
-          })(target, propertyKey);
-          Transform((value: TransformFnParams) => referenceService.fromStringDate(value, localTimeFormat.toPlain), {
+          Transform((value: TransformFnParams) => referenceService.fromStringDate(value, dateFormat.toPlain), {
             toPlainOnly: true
           })(target, propertyKey);
           break;
