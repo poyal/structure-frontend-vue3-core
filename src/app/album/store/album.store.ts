@@ -24,7 +24,7 @@ export const useAlbumStore = defineStore('album-store', () => {
       sample
         .get('/albums', {params: mapper.toPlain(params)})
         .then((response: AxiosResponse<AlbumModel.Response.FindAll[]>) => {
-          list = mapper.toArray(AlbumModel.Response.FindAll, response.data);
+          list = mapper.toInstances(AlbumModel.Response.FindAll, response.data);
           resolve(getList());
         })
         .catch((error: AxiosError) => {
@@ -34,7 +34,7 @@ export const useAlbumStore = defineStore('album-store', () => {
   }
 
   function getList(): AlbumModel.Response.FindAll[] {
-    return mapper.toArray(AlbumModel.Response.FindAll, list);
+    return mapper.toClasses(AlbumModel.Response.FindAll, list);
   }
 
   function setOne(id: number): Promise<AlbumModel.Response.FindOne> {
@@ -42,7 +42,7 @@ export const useAlbumStore = defineStore('album-store', () => {
       sample
         .get(`/albums/${id}`)
         .then((response: AxiosResponse<AlbumModel.Response.FindOne>) => {
-          one = mapper.toObject(AlbumModel.Response.FindOne, response.data);
+          one = mapper.toInstance(AlbumModel.Response.FindOne, response.data);
           resolve(getOne());
         })
         .catch((error: AxiosError) => {
@@ -52,11 +52,11 @@ export const useAlbumStore = defineStore('album-store', () => {
   }
 
   function getOne(): AlbumModel.Response.FindOne {
-    return mapper.toObject(AlbumModel.Response.FindOne, one);
+    return mapper.toClass(AlbumModel.Response.FindOne, one);
   }
 
   function getModify(): AlbumModel.Request.Modify {
-    return mapper.toObject(AlbumModel.Request.Modify, one);
+    return mapper.toClass(AlbumModel.Request.Modify, one);
   }
 
   function setAdd(params: AlbumModel.Request.Add): Promise<AlbumModel.Response.FindOne> {

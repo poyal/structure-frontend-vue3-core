@@ -1,7 +1,7 @@
 import type {Meta, StoryObj, Args} from '@storybook/vue3';
 
 import ManyPropsSample from '@/app/sample/components/many-props-sample.vue';
-import {SampleEnum} from '@/app/sample/model/sample.enum';
+import {SampleEnum} from '@/app/sample/enum/sample.enum';
 
 const meta: Args = {
   title: 'app/sample/components/many-props-sample',

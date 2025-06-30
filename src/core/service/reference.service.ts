@@ -15,6 +15,10 @@ export interface DateFormat {
 export class ReferenceService {
   typeChecker: TypeCheckerService = Container.resolve(TypeCheckerService);
 
+  getColumn(target: any, propertyKey: string): string | undefined {
+    return Reflect.getMetadata('$column', target, propertyKey);
+  }
+
   getDateFormat(target: any, propertyKey: string): DateFormat {
     return {
       toPlain: Reflect.getMetadata('$dateToString', target, propertyKey),
@@ -22,8 +26,17 @@ export class ReferenceService {
     };
   }
 
-  toEnum(value: TransformFnParams, enums: typeof EnumAbstract) {
-    const params = value.obj[value.key];
+  toEnum(value: TransformFnParams, enums: typeof EnumAbstract, name: string) {
+    let key: string = value.key;
+    if (value.key !== name) {
+      key = name;
+    }
+
+    if (value.options.options?.toCopy) {
+      key = value.key;
+    }
+
+    const params = value.obj[key];
 
     if (this.typeChecker.isString(params)) {
       return enums.valueOf(params);
@@ -72,8 +85,17 @@ export class ReferenceService {
     return params;
   }
 
-  toDateInstance(value: TransformFnParams, format: string | undefined): any {
-    const params = value.obj[value.key];
+  toDateInstance(value: TransformFnParams, format: string | undefined, name: string): any {
+    let key: string = value.key;
+    if (value.key !== name) {
+      key = name;
+    }
+
+    if (value.options.options?.toCopy) {
+      key = value.key;
+    }
+
+    const params = value.obj[key];
 
     if (!!params && this.typeChecker.isString(params)) {
       if (!!format) {

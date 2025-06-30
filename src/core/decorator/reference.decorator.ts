@@ -11,11 +11,12 @@ const referenceService: ReferenceService = Container.resolve(ReferenceService);
 
 export function Reference(typeFunction: any, typeOptions?: TypeOptions) {
   return (target: any, propertyKey: string) => {
+    const column: string = referenceService.getColumn(target, propertyKey) || propertyKey;
     if (!!typeFunction()) {
       switch (typeFunction()) {
         case Date:
           const dateFormat: DateFormat = referenceService.getDateFormat(target, propertyKey);
-          Transform((value: TransformFnParams) => referenceService.toDateInstance(value, dateFormat.toClass), {
+          Transform((value: TransformFnParams) => referenceService.toDateInstance(value, dateFormat.toClass, column), {
             toClassOnly: true
           })(target, propertyKey);
           Transform((value: TransformFnParams) => referenceService.fromStringDate(value, dateFormat.toPlain), {
@@ -27,7 +28,7 @@ export function Reference(typeFunction: any, typeOptions?: TypeOptions) {
           switch (Object.getPrototypeOf(typeFunction())) {
             case EnumAbstract:
               Type(typeFunction, typeOptions)(target, propertyKey);
-              Transform((value: TransformFnParams) => referenceService.toEnum(value, typeFunction()), {
+              Transform((value: TransformFnParams) => referenceService.toEnum(value, typeFunction(), column), {
                 toClassOnly: true
               })(target, propertyKey);
               Transform((value: TransformFnParams) => referenceService.fromEnum(value), {toPlainOnly: true})(

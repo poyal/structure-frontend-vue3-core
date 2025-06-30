@@ -1,11 +1,10 @@
 <script lang="ts" setup>
-import {onMounted, type Ref, ref} from 'vue';
+import {onMounted, ref} from 'vue';
 
-import HelloItems from '@/app/sample/components/hello-items.vue';
-import {SampleModel} from '@/app/sample/model/sample.model.ts';
 import Container from '@/core/container.ts';
 import Mapper from '@/core/service/mapper.service.ts';
-import {getValidate, isValidate, throwValidateError} from '@/core/methods';
+import {SampleModel} from '@/app/sample/model/sample.model.ts';
+import HelloItems from '@/app/sample/components/hello-items.vue';
 
 const viteEnv = ref(import.meta.env.VITE_ENV);
 const viteSampleUrl = ref(import.meta.env.VITE_SAMPLE_URL);
@@ -15,21 +14,73 @@ const sampleHtml = ref('<img src=0 onerror="alert(1)"/>');
 const mapper: Mapper = Container.resolve(Mapper);
 
 const sample = {
-  name: 'name-eaeseEf6KJozY3H7X00IzJih1rQ4N6uX',
-  flag: false,
-  enumA: 'TYPE_A_1',
-  enumB: 'TYPE_B_4',
-  date: '20250617',
-  dateTime: '2025/05/31 17:55:45',
-  time: '23~53~50'
+  user_name: 'name-eaeseEf6KJozY3H7X00IzJih1rQ4N6uX',
+  user_flag: false,
+  user_type: 'TYPE_A_1',
+  album_type: 'TYPE_B_4',
+  user_date: '20250617',
+  album_date_time: '2025/05/31 17:55:45',
+  user_time: '23~53~50',
+  sample_item: {item_id: 2, item_name: 'sample', item_flag: false},
+  sample_items: [
+    {item_id: 1, item_name: 'sample', item_flag: false},
+    {item_id: 2, item_name: 'sample', item_flag: false}
+  ]
 };
 
-onMounted(() => {
-  // @ts-ignore
-  const sampleClass = mapper.toObject(SampleModel.Request.Add, sample);
+const sample2 = {
+  userName: 'name-eaeseEf6KJozY3H7X00IzJih1rQ4N6uX',
+  userFlag: false,
+  userType: 'TYPE_A_1',
+  albumType: 'TYPE_B_4',
+  userDate: '20250617',
+  albumDateTime: '2025/05/31 17:55:45',
+  userTime: '23~53~50',
+  item: {id: 2, name: 'sample', flag: false},
+  items: [
+    {id: 1, name: 'sample', flag: false},
+    {id: 2, name: 'sample', flag: false}
+  ]
+};
 
-  console.info(sampleClass);
-  console.info(mapper.toPlain(sampleClass));
+const items = [
+  {id: 1, name: 'sample', flag: false},
+  {id: 2, name: 'sample', flag: false}
+];
+
+onMounted(() => {
+  console.info('---------------------------------');
+
+  console.info('sample', sample);
+
+  const toClass: SampleModel.ToClass = mapper.toInstance(SampleModel.ToClass, sample);
+  console.info('toClass', toClass);
+
+  const toInstance: SampleModel.ToClass = mapper.toClass(SampleModel.ToClass, toClass);
+  console.info('toInstance', toInstance);
+
+  const toPlain: any = mapper.toPlain(toInstance);
+  console.info('toPlain', toPlain);
+
+  console.info('---------------------------------');
+
+  console.info('sample2', sample2);
+
+  const toClass2: SampleModel.ToInstance = mapper.toInstance(SampleModel.ToInstance, sample2);
+  console.info('toClass2', toClass2);
+
+  const toInstance2: SampleModel.ToClass = mapper.toClass(SampleModel.ToInstance, toClass2);
+  console.info('toInstance2', toInstance2);
+
+  const toPlain2: any = mapper.toPlain(toInstance2);
+  console.info('toPlain2', toPlain2);
+
+  console.info('---------------------------------');
+
+  console.info('items', items);
+
+  const toClasses: SampleModel.Item2[] = mapper.toInstances(SampleModel.Item2, items);
+  console.info('toClasses', toClasses);
 });
 </script>
 

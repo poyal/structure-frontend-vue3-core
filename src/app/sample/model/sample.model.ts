@@ -1,4 +1,4 @@
-import {Attribute, DateFormat, Reference, XssRequest, XssResponse} from '@/core/decorator';
+import {Attribute, Column, DateFormat, Reference, XssRequest} from '@/core/decorator';
 import {
   ArrayNotEmpty,
   IsArray,
@@ -16,251 +16,175 @@ import {TypeAEnum} from '@/app/sample/enum/type-a.enum';
 import {TypeBEnum} from '@/app/sample/enum/type-b.enum';
 
 export namespace SampleModel {
-  export namespace Request {
-    export class Add {
-      @Attribute('name')
-      @XssRequest()
-      @IsString()
-      @IsNotEmpty()
-      @MaxLength(200)
-      name!: string;
+  export class ToClass {
+    @Attribute('userName')
+    @Column('user_name')
+    @XssRequest()
+    @IsString()
+    @IsNotEmpty()
+    @MaxLength(200)
+    userName!: string;
 
-      @Attribute('flag')
-      @IsBoolean()
-      @IsNotEmpty()
-      flag!: boolean;
+    @Attribute('userFlag')
+    @Column('user_flag')
+    @IsBoolean()
+    @IsNotEmpty()
+    userFlag!: boolean;
 
-      @Attribute('enumA')
-      @Reference(() => TypeAEnum)
-      @IsNotEmpty()
-      @IsEnum(TypeAEnum)
-      enumA!: TypeAEnum;
+    @Attribute('userType')
+    @Reference(() => TypeAEnum)
+    @Column('user_type')
+    @IsNotEmpty()
+    @IsEnum(TypeAEnum)
+    userType!: TypeAEnum;
 
-      @Attribute('enumB')
-      @Reference(() => TypeBEnum)
-      @IsNotEmpty()
-      @IsEnum(TypeBEnum)
-      enumB!: TypeBEnum;
+    @Attribute('albumType')
+    @Reference(() => TypeBEnum)
+    @Column('album_type')
+    @IsNotEmpty()
+    @IsEnum(TypeBEnum)
+    albumType!: TypeBEnum;
 
-      @Attribute('date')
-      @Reference(() => Date)
-      @DateFormat('YYYYMMDD')
-      @IsNotEmpty()
-      @IsDate()
-      date!: Date;
+    @Attribute('userDate')
+    @Reference(() => Date)
+    @DateFormat('YYYYMMDD')
+    @Column('user_date')
+    @IsNotEmpty()
+    @IsDate()
+    userDate!: Date;
 
-      @Attribute('dateTime')
-      @Reference(() => Date)
-      @DateFormat('YYYY/MM/DD HH:mm:ss')
-      @IsNotEmpty()
-      @IsDate()
-      dateTime!: Date;
+    @Attribute('dateTime')
+    @Reference(() => Date)
+    @DateFormat('YYYY/MM/DD HH:mm:ss')
+    @Column('album_date_time')
+    @IsNotEmpty()
+    @IsDate()
+    albumDateTime!: Date;
 
-      @Attribute('time')
-      @Reference(() => Date)
-      @DateFormat('HH~mm~ss')
-      @IsNotEmpty()
-      @IsDate()
-      time!: Date;
+    @Attribute('time')
+    @Reference(() => Date)
+    @DateFormat('HH~mm~ss')
+    @Column('user_time')
+    @IsNotEmpty()
+    @IsDate()
+    userTime!: Date;
 
-      @Attribute('item')
-      @Reference(() => SampleModel.Request.Item)
-      @IsNotEmpty()
-      @ValidateNested()
-      item!: SampleModel.Request.Item;
+    @Attribute('item')
+    @Reference(() => SampleModel.Item)
+    @Column('sample_item')
+    @IsNotEmpty()
+    @ValidateNested()
+    item!: SampleModel.Item;
 
-      @Attribute('items')
-      @Reference(() => SampleModel.Request.Item)
-      @IsArray()
-      @IsNotEmpty()
-      @ArrayNotEmpty()
-      @ValidateNested()
-      items!: SampleModel.Request.Item[];
-    }
-
-    export class Modify {
-      @Attribute('id')
-      @IsInt()
-      @IsNotEmpty()
-      id!: number;
-
-      @Attribute('name')
-      @XssRequest()
-      @IsString()
-      @IsNotEmpty()
-      @MaxLength(200)
-      name!: string;
-
-      @Attribute('flag')
-      @IsBoolean()
-      @IsNotEmpty()
-      flag!: boolean;
-
-      @Attribute('enumA')
-      @Reference(() => TypeAEnum)
-      @IsNotEmpty()
-      @IsEnum(TypeAEnum)
-      enumA!: TypeAEnum;
-
-      @Attribute('enumB')
-      @Reference(() => TypeBEnum)
-      @IsNotEmpty()
-      @IsEnum(TypeBEnum)
-      enumB!: TypeBEnum;
-
-      @Attribute('date')
-      @Reference(() => Date)
-      @DateFormat('YYYYMMDD')
-      @IsNotEmpty()
-      @IsDate()
-      date!: Date;
-
-      @Attribute('dateTime')
-      @Reference(() => Date)
-      @DateFormat('YYYY/MM/DD HH:mm:ss')
-      @IsNotEmpty()
-      @IsDate()
-      dateTime!: Date;
-
-      @Attribute('time')
-      @Reference(() => Date)
-      @DateFormat('HH~mm~ss')
-      @IsNotEmpty()
-      @IsDate()
-      time!: Date;
-
-      @Attribute('item')
-      @Reference(() => SampleModel.Request.Item)
-      @IsNotEmpty()
-      @ValidateNested()
-      item!: SampleModel.Request.Item;
-
-      @Attribute('items')
-      @Reference(() => SampleModel.Request.Item)
-      @IsArray()
-      @IsNotEmpty()
-      @ArrayNotEmpty()
-      @ValidateNested()
-      items!: SampleModel.Request.Item[];
-    }
-
-    export class Item {
-      @Attribute('id')
-      @IsInt()
-      @IsNotEmpty()
-      id!: number;
-
-      @Attribute('name')
-      @XssRequest()
-      @IsString()
-      @IsNotEmpty()
-      @MaxLength(200)
-      name!: string;
-
-      @Attribute('flag')
-      @IsBoolean()
-      @IsNotEmpty()
-      flag!: boolean;
-    }
+    @Attribute('items')
+    @Reference(() => SampleModel.Item)
+    @Column('sample_items')
+    @IsArray()
+    @IsNotEmpty()
+    @ArrayNotEmpty()
+    @ValidateNested()
+    items!: SampleModel.Item[];
   }
 
-  export namespace Response {
-    export class FindAll {
-      @Attribute('id')
-      id!: number;
+  export class Item {
+    @Attribute('id')
+    @Column('item_id')
+    @IsInt()
+    @IsNotEmpty()
+    id!: number;
 
-      @Attribute('name')
-      @XssResponse()
-      name!: string;
+    @Attribute('name')
+    @Column('item_name')
+    @XssRequest()
+    @IsString()
+    @IsNotEmpty()
+    @MaxLength(200)
+    name!: string;
 
-      @Attribute('flag')
-      flag!: boolean;
+    @Attribute('flag')
+    @Column('item_flag')
+    @IsBoolean()
+    @IsNotEmpty()
+    flag!: boolean;
+  }
 
-      @Attribute('enumA')
-      @Reference(() => TypeAEnum)
-      enumA!: TypeAEnum;
+  export class ToInstance {
+    @Attribute('userName')
+    @XssRequest()
+    @IsString()
+    @IsNotEmpty()
+    @MaxLength(200)
+    userName!: string;
 
-      @Attribute('enumB')
-      @Reference(() => TypeBEnum)
-      enumB!: TypeBEnum;
+    @Attribute('userFlag')
+    @IsBoolean()
+    @IsNotEmpty()
+    userFlag!: boolean;
 
-      @Attribute('date')
-      @Reference(() => Date)
-      @DateFormat('YYYYMMDD')
-      date!: Date;
+    @Attribute('userType')
+    @Reference(() => TypeAEnum)
+    @IsNotEmpty()
+    @IsEnum(TypeAEnum)
+    userType!: TypeAEnum;
 
-      @Attribute('dateTime')
-      @Reference(() => Date)
-      @DateFormat('YYYY/MM/DD HH:mm:ss')
-      dateTime!: Date;
+    @Attribute('albumType')
+    @Reference(() => TypeBEnum)
+    @IsNotEmpty()
+    @IsEnum(TypeBEnum)
+    albumType!: TypeBEnum;
 
-      @Attribute('time')
-      @Reference(() => Date)
-      @DateFormat('HH~mm~ss')
-      time!: Date;
+    @Attribute('userDate')
+    @Reference(() => Date)
+    @DateFormat('YYYYMMDD')
+    @IsNotEmpty()
+    @IsDate()
+    userDate!: Date;
 
-      @Attribute('item')
-      @Reference(() => SampleModel.Response.Item)
-      item!: SampleModel.Response.Item;
+    @Attribute('dateTime')
+    @Reference(() => Date)
+    @DateFormat('YYYY/MM/DD HH:mm:ss')
+    @IsNotEmpty()
+    @IsDate()
+    albumDateTime!: Date;
 
-      @Attribute('items')
-      @Reference(() => SampleModel.Response.Item)
-      items!: SampleModel.Response.Item[];
-    }
+    @Attribute('time')
+    @Reference(() => Date)
+    @DateFormat('HH~mm~ss')
+    @IsNotEmpty()
+    @IsDate()
+    userTime!: Date;
 
-    export class FindOne {
-      @Attribute('id')
-      id!: number;
+    @Attribute('item')
+    @Reference(() => SampleModel.Item2)
+    @IsNotEmpty()
+    @ValidateNested()
+    item!: SampleModel.Item2;
 
-      @Attribute('name')
-      @XssResponse()
-      name!: string;
+    @Attribute('items')
+    @Reference(() => SampleModel.Item2)
+    @IsArray()
+    @IsNotEmpty()
+    @ArrayNotEmpty()
+    @ValidateNested()
+    items!: SampleModel.Item2[];
+  }
 
-      @Attribute('flag')
-      flag!: boolean;
+  export class Item2 {
+    @Attribute('id')
+    @IsInt()
+    @IsNotEmpty()
+    id!: number;
 
-      @Attribute('enumA')
-      @Reference(() => TypeAEnum)
-      enumA!: TypeAEnum;
+    @Attribute('name')
+    @XssRequest()
+    @IsString()
+    @IsNotEmpty()
+    @MaxLength(200)
+    name!: string;
 
-      @Attribute('enumB')
-      @Reference(() => TypeBEnum)
-      enumB!: TypeBEnum;
-
-      @Attribute('date')
-      @Reference(() => Date)
-      @DateFormat('YYYYMMDD')
-      date!: Date;
-
-      @Attribute('dateTime')
-      @Reference(() => Date)
-      @DateFormat('YYYY/MM/DD HH:mm:ss')
-      dateTime!: Date;
-
-      @Attribute('time')
-      @Reference(() => Date)
-      @DateFormat('HH~mm~ss')
-      time!: Date;
-
-      @Attribute('item')
-      @Reference(() => SampleModel.Response.Item)
-      item!: SampleModel.Response.Item;
-
-      @Attribute('items')
-      @Reference(() => SampleModel.Response.Item)
-      items!: SampleModel.Response.Item[];
-    }
-
-    export class Item {
-      @Attribute('id')
-      id!: number;
-
-      @Attribute('name')
-      @XssResponse()
-      name!: string;
-
-      @Attribute('flag')
-      flag!: boolean;
-    }
+    @Attribute('flag')
+    @IsBoolean()
+    @IsNotEmpty()
+    flag!: boolean;
   }
 }
