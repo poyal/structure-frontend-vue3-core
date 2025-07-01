@@ -9,7 +9,11 @@ const service: XssService = new XssService();
 
 function decoratorEncodeXss(value: TransformFnParams, config: DOMPurifyConfig = XSS_CONFIG.DEFAULT): any {
   let params = value.obj[value.key];
-  params = service.encodeXss(params, config);
+
+  if (!!params) {
+    params = service.encodeXss(params, config);
+  }
+
   return params;
 }
 
@@ -24,7 +28,11 @@ export function XssRequest(config: DOMPurifyConfig = XSS_CONFIG.DEFAULT) {
 
 function decoratorDecodeXss(value: TransformFnParams, config: DOMPurifyConfig = XSS_CONFIG.DEFAULT): any {
   let params = value.obj[value.key];
-  params = service.decodeXss(params, config);
+
+  if (!!params) {
+    params = service.decodeXss(params, config);
+  }
+
   return params;
 }
 
